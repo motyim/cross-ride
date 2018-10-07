@@ -14,6 +14,10 @@ buildscript {
 	}
 }
 
+plugins {
+	id "org.sonarqube" version "2.6"
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: "jacoco"
@@ -38,6 +42,10 @@ dependencies {
 	compile('org.liquibase:liquibase-core')
 	// https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
 	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.1'
+	//swagger
+	compile('io.springfox:springfox-swagger2:2.7.0')
+	compile('io.springfox:springfox-data-rest:2.7.0')
+	compile('io.springfox:springfox-swagger-ui:2.7.0')
 	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('mysql:mysql-connector-java')
 	testCompile('com.h2database:h2')
