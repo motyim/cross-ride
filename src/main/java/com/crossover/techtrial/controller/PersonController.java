@@ -9,6 +9,7 @@ import java.util.List;
 import com.crossover.techtrial.dto.PersonDTO;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,7 @@ import com.crossover.techtrial.service.PersonService;
 
 @RestController
 public class PersonController {
-  
+
   @Autowired
   PersonService personService;
 
