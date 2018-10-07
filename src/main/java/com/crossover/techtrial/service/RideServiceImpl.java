@@ -4,21 +4,17 @@
 package com.crossover.techtrial.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.stream.StreamSupport;
 
+import com.crossover.techtrial.dto.TopDriverDTO;
+import com.crossover.techtrial.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.crossover.techtrial.model.Ride;
 import com.crossover.techtrial.repositories.RideRepository;
-
-import javax.persistence.criteria.Path;
 
 /**
  * @author crossover
@@ -32,8 +28,8 @@ public class RideServiceImpl implements RideService{
   
   public Ride save(Ride ride) {
     //check date condition
-    LocalDateTime endTime = LocalDateTime.parse(ride.getEndTime());
-    LocalDateTime startTime = LocalDateTime.parse(ride.getStartTime());
+    LocalDateTime endTime = ride.getEndTime();
+    LocalDateTime startTime = ride.getStartTime();
 
     if(endTime.isBefore(startTime) || endTime.isEqual(startTime))
       throw new RuntimeException("Error in Date");
@@ -48,20 +44,44 @@ public class RideServiceImpl implements RideService{
     }else return null;
   }
 
-  @Override
-  public void findTopDriver(Long count, LocalDateTime startTime, LocalDateTime endTime) {
 
-//    Stream<Ride> stream = StreamSupport.stream(rideRepository.findAll().spliterator(),false);
-//    List<Ride> list = stream.parallel()
-//            .filter(ride ->{
-//              LocalDateTime startedDate = LocalDateTime.parse(ride.getStartTime());
-//              return startedDate.isAfter(startTime) && startedDate.isBefore(endTime); }).collect(Collectors.toList());
-//
-//    list Collect
-//    list.stream().forEach();
+  public List<TopDriverDTO> findTopDriver(LocalDateTime start , LocalDateTime end , Long count){
 
-    List topDriver = rideRepository.findTopDriver(startTime.toString(), endTime.toString());
-    System.out.println(topDriver.size());
+    Optional<List> topDriver = rideRepository.findTopDriver(start, end,PageRequest.of(0,count.intValue()));
+
+    if(!topDriver.isPresent())
+      return null;
+
+    List<TopDriverDTO> topDriverDTOS = new ArrayList<>();
+    List list = topDriver.get();
+
+    for (int i = 0; i < list.size(); i++) {
+      Object [] ob = (Object[]) list.get(i);
+
+      Person person = (Person) ob[0];
+      Long distance = (Long) ob[1];
+
+
+      Iterable<Ride> itr = rideRepository.findAllByDriver(person);
+
+
+      long max = StreamSupport.stream(itr.spliterator(), false)
+              .mapToLong(r -> r.getStartTime().until(r.getEndTime(), ChronoUnit.SECONDS))
+              .max().getAsLong();
+
+      double average = StreamSupport.stream(itr.spliterator(), false)
+              .mapToLong(r -> r.getStartTime().until(r.getEndTime(), ChronoUnit.SECONDS))
+              .average().getAsDouble();
+
+      topDriverDTOS.add(new TopDriverDTO(person.getName(),person.getEmail(),distance,max,average));
+    }
+
+
+
+  return topDriverDTOS;
+
+
   }
+
 
 }

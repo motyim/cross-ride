@@ -34,4 +34,21 @@
             referencedColumnNames="id"
             referencedTableName="person"/>
     </changeSet>
+    <changeSet id="1" author="motyim">
+        <modifyDataType columnName="start_time"
+                        newDataType="date"
+                        tableName="ride"/>
+        <modifyDataType columnName="end_time"
+                        newDataType="date"
+                        tableName="ride"/>
+    </changeSet>
+    <changeSet id="071020181517" author="motyim">
+        <modifyDataType columnName="start_time"
+                        newDataType="DATETIME"
+                        tableName="ride"/>
+        <modifyDataType columnName="end_time"
+                        newDataType="DATETIME"
+                        tableName="ride"/>
+    </changeSet>
+
 </databaseChangeLog>

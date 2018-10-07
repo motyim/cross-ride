@@ -1,9 +1,7 @@
 package com.crossover.techtrial.dto;
 
-import com.crossover.techtrial.model.Person;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 /**
  * @author MA Motyim <mohamed.motyim@gmail.com>
@@ -12,8 +10,8 @@ import javax.validation.constraints.NotNull;
  */
 public class RideDTO {
     Long id;
-    String startTime;
-    String endTime;
+    LocalDateTime startTime;
+    LocalDateTime endTime;
     Long distance;
     PersonDTO driver;
     PersonDTO rider;
@@ -26,19 +24,19 @@ public class RideDTO {
         this.id = id;
     }
 
-    public String getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 

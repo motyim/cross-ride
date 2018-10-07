@@ -4,14 +4,8 @@
 package com.crossover.techtrial.model;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import java.time.LocalDateTime;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -26,11 +20,13 @@ public class Ride implements Serializable{
 
   @NotNull
   @Column(name = "start_time")
-  String startTime;
+//  @Convert(converter = LocalDateTimeConverter.class)
+  LocalDateTime startTime;
   
   @NotNull
   @Column(name = "end_time")
-  String endTime;
+//  @Convert(converter = LocalDateTimeConverter.class)
+  LocalDateTime endTime;
   
   @Column(name = "distance")
   Long distance;
@@ -51,19 +47,19 @@ public class Ride implements Serializable{
     this.id = id;
   }
 
-  public String getStartTime() {
+  public LocalDateTime getStartTime() {
     return startTime;
   }
 
-  public void setStartTime(String startTime) {
+  public void setStartTime(LocalDateTime startTime) {
     this.startTime = startTime;
   }
 
-  public String getEndTime() {
+  public LocalDateTime getEndTime() {
     return endTime;
   }
 
-  public void setEndTime(String endTime) {
+  public void setEndTime(LocalDateTime endTime) {
     this.endTime = endTime;
   }
 

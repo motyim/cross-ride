@@ -56,12 +56,12 @@ public class RideController {
       @RequestParam(value="max", defaultValue="5") Long count,
       @RequestParam(value="startTime", required=true) @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") LocalDateTime startTime,
       @RequestParam(value="endTime", required=true) @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss") LocalDateTime endTime){
-    List<TopDriverDTO> topDrivers = new ArrayList<TopDriverDTO>();
+    List<TopDriverDTO> topDrivers ;
     /**
      * Your Implementation Here. And Fill up topDrivers Arraylist with Top
      * 
      */
-    
+    topDrivers = rideService.findTopDriver(startTime,endTime,count);
     return ResponseEntity.ok(topDrivers);
     
   }
