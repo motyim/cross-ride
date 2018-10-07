@@ -42,6 +42,8 @@ dependencies {
 	compile('org.liquibase:liquibase-core')
 	// https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
 	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.1'
+	// https://mvnrepository.com/artifact/net.sf.dozer/dozer
+	compile group: 'net.sf.dozer', name: 'dozer', version: '5.5.1'
 	//swagger
 	compile('io.springfox:springfox-swagger2:2.7.0')
 	compile('io.springfox:springfox-data-rest:2.7.0')

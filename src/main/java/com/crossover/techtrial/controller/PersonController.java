@@ -3,7 +3,11 @@
  */
 package com.crossover.techtrial.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.crossover.techtrial.dto.PersonDTO;
+import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,22 +28,28 @@ public class PersonController {
   
   @Autowired
   PersonService personService;
+
+  @Autowired
+  DozerBeanMapper mapper;
   
   @PostMapping(path = "/api/person")
-  public ResponseEntity<Person> register(@RequestBody Person p) {
-    return ResponseEntity.ok(personService.save(p));
+  public ResponseEntity<Person> register(@RequestBody PersonDTO p) {
+    return ResponseEntity.ok(personService.save(mapper.map(p,Person.class)));
   }
   
   @GetMapping(path = "/api/person")
-  public ResponseEntity<List<Person>> getAllPersons() {
-    return ResponseEntity.ok(personService.getAll());
+  public ResponseEntity<List<PersonDTO>> getAllPersons() {
+    List<PersonDTO> all = new ArrayList<>();
+    mapper.map(personService.getAll(),all);
+    return ResponseEntity.ok(all);
   }
   
   @GetMapping(path = "/api/person/{person-id}")
-  public ResponseEntity<Person> getPersonById(@PathVariable(name="person-id", required=true)Long personId) {
+  public ResponseEntity<PersonDTO> getPersonById(@PathVariable(name="person-id", required=true)Long personId) {
     Person person = personService.findById(personId);
     if (person != null) {
-      return ResponseEntity.ok(person);
+      PersonDTO dto = mapper.map(person, PersonDTO.class);
+      return ResponseEntity.ok(dto);
     }
     return ResponseEntity.notFound().build();
   }
